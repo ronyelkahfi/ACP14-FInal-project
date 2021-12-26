@@ -1,16 +1,18 @@
 package main
 
 import (
+	_categoryUsecase "final-project/business/categories"
+	_productUsecase "final-project/business/products"
+	_userUsecase "final-project/business/users"
 	_dbDriver "final-project/drivers/databases"
+	_categoryRepo "final-project/drivers/databases/categories"
 	_productRepo "final-project/drivers/databases/products"
 	_userRepo "final-project/drivers/databases/users"
 	"log"
 	"time"
 
-	_productUsecase "final-project/business/products"
-	_userUsecase "final-project/business/users"
-
 	_route "final-project/apps/routes"
+	_categoryController "final-project/controllers/categories"
 	_productController "final-project/controllers/products"
 	_userController "final-project/controllers/users"
 
@@ -51,10 +53,15 @@ func main() {
 	productUseCase := _productUsecase.NewProductUsecase(productRepo, timeoutContext)
 	productController := _productController.NewProductController(productUseCase)
 
+	categoryRepo := _categoryRepo.NewCategoryRepository(db)
+	categoryUseCase := _categoryUsecase.NewCategoryUsecase(categoryRepo, timeoutContext)
+	categoryController := _categoryController.NewCategoryController(categoryUseCase)
+
 	e := echo.New()
 	routesInit := _route.ControllerList{
-		UserController:    *userController,
-		ProductController: *productController,
+		UserController:     *userController,
+		ProductController:  *productController,
+		CategoryController: *categoryController,
 	}
 	routesInit.RouteRegister(e)
 
