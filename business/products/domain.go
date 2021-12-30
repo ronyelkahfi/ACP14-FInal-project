@@ -22,6 +22,7 @@ type Usecase interface {
 
 type Repository interface {
 	GetProduct(ctx context.Context) ([]Domain, error)
+	GetProductById(ctx context.Context, id uint) (Domain, error)
 	CreateProduct(ctx context.Context, data Domain) (int, error)
 	DeleteProduct(ctx context.Context, id int) (int, error)
 }
