@@ -3,8 +3,9 @@ package middlewares
 import (
 	_userDomain "final-project/business/users"
 	"time"
-	"github.com/labstack/echo/v4"
+
 	_jwt "github.com/golang-jwt/jwt"
+	"github.com/labstack/echo/v4"
 )
 
 func CreateToken(data _userDomain.Domain) (string, error) {
@@ -23,6 +24,6 @@ func extractToken(e echo.Context) uint {
 		userId := claims["userId"].(uint)
 		return userId
 	}
-	return 0;
+	return 0
 
 }
