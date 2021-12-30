@@ -3,6 +3,8 @@ package databases
 import (
 	_categoryDb "final-project/drivers/databases/categories"
 	_productDb "final-project/drivers/databases/products"
+	_transactionDetailDb "final-project/drivers/databases/transactionDetails"
+	_transactionDb "final-project/drivers/databases/transactions"
 	_userDb "final-project/drivers/databases/users"
 	"fmt"
 	"log"
@@ -40,5 +42,7 @@ func DBMigrate(db *gorm.DB) {
 		&_userDb.User{},
 		&_productDb.Product{},
 		&_categoryDb.Category{},
+		&_transactionDb.Transaction{},
+		&_transactionDetailDb.Transaction_detail{},
 	)
 }
