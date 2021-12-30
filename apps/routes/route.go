@@ -29,7 +29,6 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.POST("/categories", cl.CategoryController.CreateCategory)
 	c.DELETE("/categories/:id", cl.CategoryController.DeleteCategory)
 	c.POST("/login", cl.UserController.Login)
-
 	//r.POST("/orders")
 
 }

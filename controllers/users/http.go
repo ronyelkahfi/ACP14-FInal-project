@@ -30,17 +30,11 @@ func (controller *UserController) GetUser(c echo.Context) error {
 	return _controllers.NewSuccessResponse(c, _response.ToListFromDomain(users))
 }
 
-type Usercontoh struct {
-	Name     string `json:name`
-	Email    string `json:email`
-	Password string `json:password`
-}
-
 func (controller *UserController) Register(c echo.Context) error {
 	var data _request.UserRequest
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
-		return err
+		return _controllers.NewErrorResponse(c, err)
 	}
 	dataDomain := _usersDomain.Domain{
 		Name:     data.Name,
@@ -53,4 +47,19 @@ func (controller *UserController) Register(c echo.Context) error {
 		return _controllers.NewErrorResponse(c, error)
 	}
 	return _controllers.NewSuccessResponse(c, "sss")
+}
+
+func (controller *UserController) Login(c echo.Context) error {
+	var data _request.UserRequest
+	ctx := c.Request().Context()
+
+	if err := c.Bind(&data); err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	// fmt.Println(data.Email, data.Password)
+	token, err := controller.usecase.Login(ctx, data.Email, data.Password)
+	if err != nil {
+		return _controllers.NewErrorResponse(c, err)
+	}
+	return _controllers.NewSuccessResponse(c, token)
 }
