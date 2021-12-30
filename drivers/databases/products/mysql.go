@@ -2,6 +2,7 @@ package products
 
 import (
 	"context"
+	"errors"
 	_productDomain "final-project/business/products"
 	"final-project/helpers"
 	"time"
@@ -50,4 +51,22 @@ func (repo *ProductRepository) DeleteProduct(ctx context.Context, id int) (int, 
 	// fmt.Println(data)
 	result := repo.db.Model(&product).Where("id", id).Update("deleted_at", time.Now())
 	return int(result.RowsAffected), result.Error
+}
+
+func (repo *ProductRepository) GetProductById(ctx context.Context, id uint) (_productDomain.Domain, error) {
+	product := Product{}
+
+	result := repo.db.First(&product).Where("id", id)
+
+	if result.Error != nil {
+		if result.Error == gorm.ErrRecordNotFound {
+			return _productDomain.Domain{}, errors.New("Not FOund")
+		} else {
+			return _productDomain.Domain{}, result.Error
+		}
+	} else {
+		return _productDomain.Domain{
+			Price: product.Price,
+		}, nil
+	}
 }

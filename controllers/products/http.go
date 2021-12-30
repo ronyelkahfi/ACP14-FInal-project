@@ -5,6 +5,7 @@ import (
 	_controllers "final-project/controllers"
 	_request "final-project/controllers/products/request"
 	_response "final-project/controllers/products/response"
+	"final-project/helpers"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -35,7 +36,7 @@ func (controller *ProductController) CreateProduct(c echo.Context) error {
 	var data _request.ProductRequest
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
-		return err
+		return _controllers.NewErrorResponse(c, err)
 	}
 	dataDomain := _productsDomain.Domain{
 		Name:       data.Name,
@@ -47,17 +48,19 @@ func (controller *ProductController) CreateProduct(c echo.Context) error {
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
 	}
-	return _controllers.NewSuccessResponse(c, "sss")
+	return _controllers.NewSuccessResponse(c, "")
 }
 
 func (controller *ProductController) DeleteProduct(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ctx := c.Request().Context()
 
-	_, error := controller.usecase.DeleteProduct(ctx, id)
-
+	affectedRow, error := controller.usecase.DeleteProduct(ctx, id)
+	if affectedRow == 0 {
+		return _controllers.NewErrorResponse(c, helpers.ErrIdNotFound)
+	}
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
 	}
-	return _controllers.NewSuccessResponse(c, "sss")
+	return _controllers.NewSuccessResponse(c, "")
 }
