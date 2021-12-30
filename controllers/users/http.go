@@ -46,7 +46,7 @@ func (controller *UserController) Register(c echo.Context) error {
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
 	}
-	return _controllers.NewSuccessResponse(c, "sss")
+	return _controllers.NewSuccessResponse(c, "")
 }
 
 func (controller *UserController) Login(c echo.Context) error {
