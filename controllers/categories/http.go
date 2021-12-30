@@ -1,6 +1,7 @@
 package categories
 
 import (
+	"errors"
 	_categoriesDomain "final-project/business/categories"
 	_controllers "final-project/controllers"
 	_request "final-project/controllers/categories/request"
@@ -35,7 +36,7 @@ func (controller *CategoryController) CreateCategory(c echo.Context) error {
 	var data _request.CategoryRequest
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
-		return err
+		return _controllers.NewErrorResponse(c, err)
 	}
 	dataDomain := _categoriesDomain.Domain{
 		Name: data.Name,
@@ -52,10 +53,14 @@ func (controller *CategoryController) DeleteCategory(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ctx := c.Request().Context()
 
-	_, error := controller.usecase.DeleteCategory(ctx, id)
+	affectedRow, error := controller.usecase.DeleteCategory(ctx, id)
 
 	if error != nil {
 		return _controllers.NewErrorResponse(c, error)
+	}
+
+	if affectedRow == 0 {
+		return _controllers.NewErrorResponse(c, errors.New("Id not found in database"))
 	}
 	return _controllers.NewSuccessResponse(c, "")
 }
