@@ -17,7 +17,7 @@ func CreateToken(data _userDomain.Domain) (string, error) {
 	return token.SignedString([]byte("ThisisSecretGais"))
 }
 
-func extractToken(e echo.Context) uint {
+func ExtractToken(e echo.Context) uint {
 	user := e.Get("user").(*_jwt.Token)
 	if user.Valid {
 		claims := user.Claims.(_jwt.MapClaims)

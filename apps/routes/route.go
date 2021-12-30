@@ -3,6 +3,7 @@ package routes
 import (
 	_categories "final-project/controllers/categories"
 	_products "final-project/controllers/products"
+	_transactions "final-project/controllers/transactions"
 	_users "final-project/controllers/users"
 
 	// _jwt "github.com/golang-jwt/jwt"
@@ -11,9 +12,10 @@ import (
 )
 
 type ControllerList struct {
-	UserController     _users.UserController
-	ProductController  _products.ProductController
-	CategoryController _categories.CategoryController
+	UserController        _users.UserController
+	ProductController     _products.ProductController
+	CategoryController    _categories.CategoryController
+	TransactionController _transactions.TransactionController
 }
 
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
@@ -29,6 +31,9 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.POST("/categories", cl.CategoryController.CreateCategory)
 	c.DELETE("/categories/:id", cl.CategoryController.DeleteCategory)
 	c.POST("/login", cl.UserController.Login)
-	//r.POST("/orders")
+
+	r.POST("/orders", cl.TransactionController.CreateTransaction)
+	r.DELETE("/orders/:id", cl.TransactionController.DeleteTransaction)
+	r.DELETE("/orders/detail/:id", cl.TransactionController.DeleteDetailTransaction)
 
 }
