@@ -5,7 +5,9 @@ import (
 	_products "final-project/controllers/products"
 	_users "final-project/controllers/users"
 
+	// _jwt "github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type ControllerList struct {
@@ -15,6 +17,9 @@ type ControllerList struct {
 }
 
 func (cl *ControllerList) RouteRegister(c *echo.Echo) {
+	r := c.Group("/jwt")
+	r.Use(middleware.JWT([]byte("ThisisSecretGais")))
+
 	c.GET("/users", cl.UserController.GetUser)
 	c.POST("/users", cl.UserController.Register)
 	c.GET("/products", cl.ProductController.GetProduct)
@@ -23,4 +28,8 @@ func (cl *ControllerList) RouteRegister(c *echo.Echo) {
 	c.GET("/categories", cl.CategoryController.GetCategory)
 	c.POST("/categories", cl.CategoryController.CreateCategory)
 	c.DELETE("/categories/:id", cl.CategoryController.DeleteCategory)
+	c.POST("/login", cl.UserController.Login)
+
+	//r.POST("/orders")
+
 }
