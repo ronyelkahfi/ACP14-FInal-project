@@ -27,3 +27,30 @@ func ExtractToken(e echo.Context) uint {
 	return 0
 
 }
+
+type Headers struct{}
+
+func ExtractTokenMetadata(c echo.Context) {
+	// fmt.Println(c.Get("Authorization"))
+	// bearer := c.Request().Header.Get("Authorization")
+	// jwttoken := strings.Replace(bearer, "bearer ", "", 1)
+	// claims := _jwt.MapClaims{}
+	// _, err := jwt.ParseWithClaims(jwttoken, claims, func(jwttoken *_jwt.Token) (interface{}, error) {
+	// 	return jwttoken.SignedString([]byte("ThisisSecretGais")), nil
+	// })
+	// if err != nil {
+	// 	fmt.Println(claims)
+	// }
+
+	// ... error handling
+
+	// do something with decoded claims
+	// for key, val := range claims {
+	// 	fmt.Printf("Key: %v, value: %v\n", key, val)
+	// }
+
+}
+func Auth(c echo.Context) (bool, error) {
+
+	return true, nil
+}
