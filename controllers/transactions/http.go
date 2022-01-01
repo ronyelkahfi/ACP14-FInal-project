@@ -23,9 +23,11 @@ func NewTransactionController(TransactionUsecase _TransactionsDomain.Usecase) *T
 }
 
 func (controller *TransactionController) CreateTransaction(c echo.Context) error {
+	// mdw.ExtractTokenMetadata(c)
+
 	userId := middleware.ExtractToken(c)
 	if userId == 0 {
-		return errors.New("Token Error")
+		return _controllers.NewErrorResponse(c, errors.New("Token Error"))
 	}
 	var data _request.TransactionRequest
 	ctx := c.Request().Context()
