@@ -38,6 +38,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull 74112/cp14-final-project; \
-            docker rm -f cp14-final-project; \
-            docker run -d --network host --name cp14-final-project 74112/cp14-final-project
+            docker pull 74112/acp14-final-project; \
+            docker rm -f acp14-final-project; \
+            docker run -d --network host --name acp14-final-project 74112/acp14-final-project
