@@ -4,7 +4,7 @@ ADD . /app
 WORKDIR /app
 COPY go.mod .
 COPY go.sum .
-COPY /apps/configs/config.json .
+COPY app/apps/configs/config.json .
 RUN go mod download
 
 COPY . .
