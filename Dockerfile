@@ -10,7 +10,7 @@ RUN go build -o app
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=build /app/app /app
+COPY --from=build /app/app /acp14
 COPY --from=build /app/apps/configs/config.json apps/configs/config.json
 EXPOSE 8080
-CMD ["/app"]
+CMD ["/acp14"]
