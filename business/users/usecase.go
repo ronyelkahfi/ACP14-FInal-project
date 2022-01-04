@@ -3,9 +3,8 @@ package users
 import (
 	"context"
 	"errors"
+	_middleware "final-project/apps/middlewares"
 	"time"
-
-	_jwt "github.com/golang-jwt/jwt"
 )
 
 type UserUsecase struct {
@@ -47,18 +46,17 @@ func (uc *UserUsecase) Login(ctx context.Context, email string, password string)
 	if UserData.Password != password {
 		return "", errors.New("Password mismatch!")
 	} else {
-
-		return CreateToken(UserData)
+		return _middleware.GenerateToken(UserData.Id)
 	}
 	//affectedRow, err := uc.repository.GetByEmail(ctx, email)
 	// return token, err
 }
 
-func CreateToken(data Domain) (string, error) {
-	claims := _jwt.MapClaims{}
-	claims["authorized"] = true
-	claims["userId"] = data.Id
-	claims["exp"] = time.Now().Add(time.Hour * 6)
-	token := _jwt.NewWithClaims(_jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte("ThisisSecretGais"))
-}
+// func CreateToken(data Domain) (string, error) {
+// 	claims := _jwt.MapClaims{}
+// 	claims["authorized"] = true
+// 	claims["userId"] = data.Id
+// 	claims["exp"] = time.Now().Add(time.Hour * 6)
+// 	token := _jwt.NewWithClaims(_jwt.SigningMethodHS256, claims)
+// 	return token.SignedString([]byte("ThisisSecretGais"))
+// }
