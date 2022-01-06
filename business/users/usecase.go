@@ -3,7 +3,8 @@ package users
 import (
 	"context"
 	"errors"
-	_middleware "final-project/apps/middlewares"
+
+	// _middleware "final-project/apps/middlewares"
 	"time"
 )
 
@@ -46,7 +47,7 @@ func (uc *UserUsecase) Login(ctx context.Context, email string, password string)
 	if UserData.Password != password {
 		return "", errors.New("Password mismatch!")
 	} else {
-		return _middleware.GenerateToken(UserData.Id)
+		return "kjhkjskdkhasdk", nil //_middleware.GenerateToken(UserData.Id)
 	}
 	//affectedRow, err := uc.repository.GetByEmail(ctx, email)
 	// return token, err
