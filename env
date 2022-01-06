@@ -3,4 +3,4 @@ DBHOST=dbacpfinal.camzbo3z0xd5.us-east-2.rds.amazonaws.com
 DBPORT=3306
 DBNAME=dbacp14final
 DBUSERNAME=admin
-DBPASSWORD=rootadmin
+DBPASSWORD=${{ secrets.RDS_PASSWORD }}
