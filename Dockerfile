@@ -13,6 +13,6 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=build /app/app /acp14
 COPY --from=build /app/apps/configs/config.json apps/configs/config.json
-COPY --from=build /app/.env .env
+COPY --from=build /app/env env
 EXPOSE 8080
 CMD ["/acp14"]
