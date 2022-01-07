@@ -47,7 +47,7 @@ func (uc *UserUsecase) Login(ctx context.Context, email string, password string)
 	if UserData.Password != password {
 		return "", errors.New("Password mismatch!")
 	} else {
-		return "kjhkjskdkhasdk", nil //_middleware.GenerateToken(UserData.Id)
+		return "", nil //_middleware.GenerateToken(UserData.Id)
 	}
 	//affectedRow, err := uc.repository.GetByEmail(ctx, email)
 	// return token, err
