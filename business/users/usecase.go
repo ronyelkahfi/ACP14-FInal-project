@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	// _middleware "final-project/apps/middlewares"
+	_middleware "final-project/apps/middlewares"
 	"time"
 )
 
@@ -38,8 +38,10 @@ func (uc *UserUsecase) Register(ctx context.Context, domain Domain) (int, error)
 
 func (uc *UserUsecase) Login(ctx context.Context, email string, password string) (string, error) {
 	var err error
-	var UserData Domain
-	UserData, err = uc.repository.GetByEmail(ctx, email)
+	// var UserData Domain
+
+	UserData, err := uc.repository.GetByEmail(ctx, email)
+	// fmt.Println("loldkjgkldjgfdjfgfkj")
 	if err != nil {
 		return "", err
 	}
@@ -47,7 +49,7 @@ func (uc *UserUsecase) Login(ctx context.Context, email string, password string)
 	if UserData.Password != password {
 		return "", errors.New("Password mismatch!")
 	} else {
-		return "", nil //_middleware.GenerateToken(UserData.Id)
+		return _middleware.GenerateToken(UserData.Id)
 	}
 	//affectedRow, err := uc.repository.GetByEmail(ctx, email)
 	// return token, err

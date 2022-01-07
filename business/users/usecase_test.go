@@ -14,22 +14,24 @@ import (
 
 type UserUsecaseMocking struct {
 	UserUsecase
-	repository mock.Mock
+	mock.Mock
 }
 
 func (d *UserUsecaseMocking) Register(ctx context.Context, data Domain) (int, error) {
 	return 1, nil
 }
-func (d *UserUsecaseMocking) GetByEmail(ctx context.Context, email string) (Domain, error) {
-	return Domain{
-		Id:        1,
-		CreatedAt: time.Time{},
-		UpdatedAt: time.Time{},
-		Name:      "Rony",
-		Email:     "ronyelkahfi@gmail.com",
-		Password:  "112233456",
-	}, nil
-}
+
+// func (d *UserUsecaseMocking) GetByEmail(ctx context.Context, email string) (Domain, error) {
+
+// 	return Domain{
+// 		Id:        1,
+// 		CreatedAt: time.Time{},
+// 		UpdatedAt: time.Time{},
+// 		Name:      "Rony",
+// 		Email:     "ronyelkahfi@gmail.com",
+// 		Password:  "112233456",
+// 	}, nil
+// }
 
 type args struct {
 	ctx context.Context
@@ -57,9 +59,7 @@ func TestRegister(t *testing.T) {
 }
 
 // func TestLogin(t *testing.T) {
-// 	UserUsecase := UserUsecaseMocking{
-// 		repository:  mock.Mock{},
-// 	}
+// 	testObj := new(UserUsecaseMocking)
 // 	tests := struct {
 // 		name string
 // 		args args
@@ -68,6 +68,16 @@ func TestRegister(t *testing.T) {
 // 	}{
 // 		// TODO: Add test cases.
 // 	}
+
+// 	testObj.Mock.On("GetByEmail", tests.args.ctx, "ronyelkahfi@gmail.com").Return(Domain{
+// 		Id:        1,
+// 		CreatedAt: time.Time{},
+// 		UpdatedAt: time.Time{},
+// 		Name:      "Rony",
+// 		Email:     "ronyelkahfi@gmail.com",
+// 		Password:  "112233456",
+// 	}, nil)
+
 // 	_, err := UserUsecase.Login(tests.args.ctx, "ronyelkahfi@gmail.com", "112233456")
 // 	fmt.Println(err)
 // 	//assert.Equal(t, nil, err, err)
