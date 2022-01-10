@@ -1,6 +1,6 @@
-APPNAME=acp14final
-DBHOST=dbacpfinal.camzbo3z0xd5.us-east-2.rds.amazonaws.com
+APPNAME=dbacpfinal
+DBHOST=localhost
 DBPORT=3306
-DBNAME=dbacp14final
-DBUSERNAME=admin
-DBPASSWORD=rootadmin
+DBNAME=dbacpfinal
+DBUSERNAME=root
+DBPASSWORD=root
