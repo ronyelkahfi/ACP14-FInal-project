@@ -1,0 +1,6 @@
+APPNAME=dbacpfinal
+DBHOST=localhost
+DBPORT=3306
+DBNAME=dbacpfinal
+DBUSERNAME=root
+DBPASSWORD=root

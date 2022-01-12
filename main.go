@@ -12,6 +12,7 @@ import (
 	_transactionRepo "final-project/drivers/databases/transactions"
 	_userRepo "final-project/drivers/databases/users"
 	"log"
+	"os"
 	"time"
 
 	_route "final-project/apps/routes"
@@ -20,6 +21,7 @@ import (
 	_transactionController "final-project/controllers/transactions"
 	_userController "final-project/controllers/users"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 )
@@ -38,14 +40,19 @@ func init() {
 }
 
 func main() {
-	configDB := _dbDriver.ConfigDB{
-		DB_Username: viper.GetString(`database.user`),
-		DB_Password: viper.GetString(`database.pass`),
-		DB_Host:     viper.GetString(`database.host`),
-		DB_Port:     viper.GetString(`database.port`),
-		DB_Database: viper.GetString(`database.name`),
+	err := godotenv.Load("env")
+	if err != nil {
+		panic("Cannot load .env file")
 	}
 
+	configDB := _dbDriver.ConfigDB{
+		DB_Username: os.Getenv("DBUSERNAME"),
+		DB_Password: os.Getenv("DBPASSWORD"),
+		DB_Host:     os.Getenv("DBHOST"),
+		DB_Port:     os.Getenv("DBPORT"),
+		DB_Database: os.Getenv("DBNAME"),
+	}
+	// fmt.Println(os.Getenv("DBUSERNAME"), os.Getenv("DBPASSWORD"))
 	db := configDB.ConnectDB()
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 

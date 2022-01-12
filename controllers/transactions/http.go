@@ -1,8 +1,8 @@
 package transactions
 
 import (
-	"errors"
-	middleware "final-project/apps/middlewares"
+
+	// middleware "final-project/apps/middlewares"
 	_TransactionsDomain "final-project/business/transactions"
 	_controllers "final-project/controllers"
 	_request "final-project/controllers/transactions/request"
@@ -23,19 +23,19 @@ func NewTransactionController(TransactionUsecase _TransactionsDomain.Usecase) *T
 }
 
 func (controller *TransactionController) CreateTransaction(c echo.Context) error {
-	// mdw.ExtractTokenMetadata(c)
 
-	userId := middleware.ExtractToken(c)
-	if userId == 0 {
-		return _controllers.NewErrorResponse(c, errors.New("Token Error"))
-	}
+	// userId := middleware.ExtractToken(c)
+	// if userId == 0 {
+	// 	return errors.New("Token Error")
+	// }
 	var data _request.TransactionRequest
+	userId := 1
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
 		return _controllers.NewErrorResponse(c, err)
 	}
 
-	transactions, err := controller.usecase.NewTransaction(ctx, userId, _request.DetailToDomain(data))
+	transactions, err := controller.usecase.NewTransaction(ctx, uint(userId), _request.DetailToDomain(data))
 
 	if err != nil {
 		return _controllers.NewErrorResponse(c, err)
