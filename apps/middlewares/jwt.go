@@ -2,21 +2,38 @@ package middlewares
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
-func GenerateToken(id uint) (string, error) {
-	sign := jwt.New(jwt.GetSigningMethod("HS256"))
-	claims := sign.Claims.(jwt.MapClaims)
-	claims["userid"] = id
-	token, err := sign.SignedString([]byte("thisissecret"))
+const jwtSecret = "SECRETges%&*^&*^*&("
+
+type JwtCustomClaims struct {
+	Id   uint   `json:"id"`
+	Name string `json:"name"`
+	jwt.StandardClaims
+}
+
+func GenerateToken(id uint, name string) (string, error) {
+	claims := &JwtCustomClaims{
+		id,
+		name,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		},
+	}
+
+	// Create token with claims
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte(jwtSecret))
 	if err != nil {
 		return "", err
 	}
-
-	return token, nil
+	return t, nil
 }
 func Auth(c *echo.Context) bool {
 
@@ -35,23 +52,11 @@ func Auth(c *echo.Context) bool {
 	}
 }
 
-func ExtractClaims() (jwt.MapClaims, bool) {
-	tokenString := echo.HeaderAuthorization
-	hmacSecretString := "thisissecret" // Value
-	hmacSecret := []byte(hmacSecretString)
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// check token signing method etc
-		return hmacSecret, nil
-	})
-
-	if err != nil {
-		return nil, false
-	}
-
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		return claims, true
-	} else {
-		// log.Printf("Invalid JWT Token")
-		return nil, false
-	}
+func ExtractClaims(ctx echo.Context) (JwtCustomClaims, error) {
+	user := ctx.Get("user").(*jwt.Token)
+	claims := user.Claims.(*JwtCustomClaims)
+	return JwtCustomClaims{
+		Id:   claims.Id,
+		Name: claims.Name,
+	}, nil
 }
