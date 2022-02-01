@@ -1,7 +1,6 @@
 package transactions
 
 import (
-
 	// middleware "final-project/apps/middlewares"
 	_TransactionsDomain "final-project/business/transactions"
 	_controllers "final-project/controllers"
@@ -22,20 +21,24 @@ func NewTransactionController(TransactionUsecase _TransactionsDomain.Usecase) *T
 	}
 }
 
+// type claims struct {
+// 	userid
+// }
+
 func (controller *TransactionController) CreateTransaction(c echo.Context) error {
 
-	// userId := middleware.ExtractToken(c)
-	// if userId == 0 {
-	// 	return errors.New("Token Error")
+	// jwtclaims, authenticate := _middleware.ExtractClaims()
+	// if authenticate == false {
+	// 	return _controllers.NewErrorResponse(c, errors.New("Token error"))
 	// }
+
 	var data _request.TransactionRequest
-	userId := 1
 	ctx := c.Request().Context()
 	if err := c.Bind(&data); err != nil {
 		return _controllers.NewErrorResponse(c, err)
 	}
 
-	transactions, err := controller.usecase.NewTransaction(ctx, uint(userId), _request.DetailToDomain(data))
+	transactions, err := controller.usecase.NewTransaction(ctx, 1, _request.DetailToDomain(data))
 
 	if err != nil {
 		return _controllers.NewErrorResponse(c, err)

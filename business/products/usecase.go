@@ -27,14 +27,9 @@ func (uc *ProductUsecase) GetProduct(ctx context.Context) ([]Domain, error) {
 }
 
 func (uc *ProductUsecase) CreateProduct(ctx context.Context, domain Domain) (int, error) {
-	var affectedRow int
-	var err error
-	affectedRow, err = uc.repository.CreateProduct(ctx, domain)
+	affectedRow, err := uc.repository.CreateProduct(ctx, domain)
 	return affectedRow, err
 }
 func (uc *ProductUsecase) DeleteProduct(ctx context.Context, id int) (int, error) {
-	var affectedRow int
-	var err error
-	affectedRow, err = uc.repository.DeleteProduct(ctx, id)
-	return affectedRow, err
+	return uc.repository.DeleteProduct(ctx, id)
 }
